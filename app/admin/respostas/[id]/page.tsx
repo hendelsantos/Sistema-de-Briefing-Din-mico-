@@ -22,7 +22,7 @@ export default async function RespostasPage({
         include: { proposal: true },
       },
     },
-  });
+  }) as any;
 
   if (!form) {
     notFound();
@@ -32,10 +32,12 @@ export default async function RespostasPage({
     ...form,
     submissions: form.submissions.map((submission) => ({
       ...submission,
-      proposal: submission.proposal
+          proposal: submission.proposal
         ? {
             ...submission.proposal,
             price: Number(submission.proposal.price),
+            deadline: submission.proposal.deadline || "",
+            status: submission.proposal.status,
           }
         : undefined,
     })),

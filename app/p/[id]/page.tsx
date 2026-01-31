@@ -8,7 +8,7 @@ export default async function ProposalPage({
 }: {
   params: { id: string };
 }) {
-  const proposal = await prisma.proposal.findUnique({
+  const proposal = await (prisma as any).proposal.findUnique({
     where: { id: params.id },
     include: {
       submission: {
@@ -25,7 +25,7 @@ export default async function ProposalPage({
 
   const { submission } = proposal;
   const { form } = submission;
-  const schema = form.schema as FormSchema;
+  const schema = form.schema as unknown as FormSchema;
 
   // Helper to get Q&A for summary (optional, maybe just show scope)
   const getQuestionLabel = (questionId: string) => {
@@ -71,7 +71,7 @@ export default async function ProposalPage({
               Proposta de Desenvolvimento
             </h1>
             <p className="text-slate-400 text-lg relative z-10">
-              Preparada especialmente para {submission.clientName || form.clientName || "Cliente"}
+              Preparada especialmente para {form.clientName || "Cliente"}
             </p>
           </div>
           

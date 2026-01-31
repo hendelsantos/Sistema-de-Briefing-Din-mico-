@@ -14,13 +14,13 @@ export async function POST(req: Request) {
     const { submissionId, price, deadline, scope } = body;
 
     // Check if proposal already exists
-    const existing = await prisma.proposal.findUnique({
+    const existing = await (prisma as any).proposal.findUnique({
       where: { submissionId },
     });
 
     if (existing) {
       // Update existing
-      const updated = await prisma.proposal.update({
+      const updated = await (prisma as any).proposal.update({
         where: { id: existing.id },
         data: {
           price,
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     }
 
     // Create new
-    const proposal = await prisma.proposal.create({
+    const proposal = await (prisma as any).proposal.create({
       data: {
         submissionId,
         price,
