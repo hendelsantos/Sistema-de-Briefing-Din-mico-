@@ -8,6 +8,8 @@ interface Form {
   id: string;
   title: string;
   slug: string;
+  description?: string;
+  schema?: any;
   clientName: string | null;
   createdAt: string;
   _count: {
@@ -181,6 +183,41 @@ export default function AdminPage() {
                       >
                         Ver Respostas
                       </Link>
+                      <button
+                        onClick={async () => {
+                          if (!confirm("Deseja criar um novo briefing usando este como modelo?")) return;
+                          
+                          try {
+                            const newTitle = `${form.title} (Cópia)`;
+                            const newSlug = `${form.slug}-copia-${Date.now()}`;
+                            
+                            const response = await fetch("/api/forms", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                title: newTitle,
+                                slug: newSlug,
+                                description: form.description, // Reusing description
+                                clientName: "", // Clear client name
+                                schema: form.schema, // Copy schema (The Template)
+                              }),
+                            });
+
+                            if (response.ok) {
+                              alert("Briefing duplicado com sucesso! Você pode editá-lo agora.");
+                              fetchForms();
+                            } else {
+                              throw new Error("Erro ao duplicar");
+                            }
+                          } catch (error) {
+                            alert("Erro ao duplicar briefing");
+                          }
+                        }}
+                        className="text-indigo-600 hover:text-indigo-900"
+                        title="Usar como modelo"
+                      >
+                        Duplicar
+                      </button>
                       <button
                         onClick={() => handleDelete(form.id)}
                         className="text-red-600 hover:text-red-900"
