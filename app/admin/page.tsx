@@ -86,12 +86,36 @@ export default function AdminPage() {
           <h2 className="text-xl font-semibold text-gray-900">
             Meus Briefings
           </h2>
-          <Link
-            href="/admin/novo"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            + Novo Briefing
-          </Link>
+          <div className="flex gap-2">
+            <button
+              onClick={async () => {
+                if (!confirm("Isso criará o modelo 'Loja Virtual' padrão. Deseja continuar?")) return;
+                try {
+                  setLoading(true);
+                  const res = await fetch("/api/templates/seed", { method: "POST" });
+                  if (res.ok) {
+                    alert("Modelo criado com sucesso!");
+                    fetchForms();
+                  } else {
+                    throw new Error("Erro ao criar modelo");
+                  }
+                } catch (e) {
+                  alert("Erro ao criar modelo");
+                } finally {
+                  setLoading(false);
+                }
+              }}
+              className="text-sm text-indigo-600 hover:text-indigo-800 px-4 py-2 border border-indigo-200 rounded-lg hover:bg-indigo-50 transition-colors"
+            >
+              + Gerar Modelo Loja Virtual
+            </button>
+            <Link
+              href="/admin/novo"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              + Novo Briefing
+            </Link>
+          </div>
         </div>
 
         {loading ? (
