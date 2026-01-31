@@ -22,7 +22,7 @@ export default function PortfolioPage() {
             </a>
           </div>
           <a
-            href="https://wa.me/5561999999999" // TODO: Add real number or link
+            href="https://wa.me/5519974212216" // Updated with user's number
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-medium transition-all text-sm"
