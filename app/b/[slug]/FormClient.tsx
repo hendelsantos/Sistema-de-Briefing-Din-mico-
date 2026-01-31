@@ -115,7 +115,9 @@ export function FormClient({ form }: FormClientProps) {
 
         {/* Footer */}
         <div className="text-center mt-6 text-sm text-gray-600">
-          Feito por HendelCode
+          <a href="/portfolio" target="_blank" className="hover:text-blue-600 transition-colors">
+            Feito por HendelCode
+          </a>
         </div>
       </div>
     </div>

@@ -17,7 +17,9 @@ export default async function AdminLayout({
     <>
       {children}
       <footer className="bg-gray-50 py-6 text-center text-sm text-gray-500 border-t border-gray-200">
-        Feito por HendelCode
+        <a href="/portfolio" target="_blank" className="hover:text-blue-600 transition-colors">
+          Feito por HendelCode
+        </a>
       </footer>
     </>
   );

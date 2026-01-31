@@ -11,7 +11,9 @@ export default function Home() {
       </div>
       
       <div className="absolute bottom-4 text-center w-full text-sm text-gray-500">
-        Feito por HendelCode
+        <a href="/portfolio" className="hover:text-blue-600 transition-colors">
+          Feito por HendelCode
+        </a>
       </div>
     </div>
   );
