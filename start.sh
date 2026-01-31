@@ -1,9 +1,9 @@
 #!/bin/sh
 set -e
 
-echo "🔄 Running database migrations..."
-npx prisma migrate deploy
+echo "🔄 Syncing database schema..."
+npx prisma db push --accept-data-loss --skip-generate
 
-echo "✅ Migrations completed successfully"
+echo "✅ Database schema synced successfully"
 echo "🚀 Starting Next.js application..."
 exec npm run start:prod
