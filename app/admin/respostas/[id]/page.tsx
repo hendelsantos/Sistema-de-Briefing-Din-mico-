@@ -28,5 +28,18 @@ export default async function RespostasPage({
     notFound();
   }
 
-  return <SubmissionsClient form={form} />;
+  const serializedForm = {
+    ...form,
+    submissions: form.submissions.map((submission) => ({
+      ...submission,
+      proposal: submission.proposal
+        ? {
+            ...submission.proposal,
+            price: Number(submission.proposal.price),
+          }
+        : undefined,
+    })),
+  };
+
+  return <SubmissionsClient form={serializedForm} />;
 }
