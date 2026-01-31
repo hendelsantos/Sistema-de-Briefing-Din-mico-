@@ -13,5 +13,12 @@ export default async function AdminLayout({
     redirect("/login");
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <footer className="bg-gray-50 py-6 text-center text-sm text-gray-500 border-t border-gray-200">
+        Feito por HendelCode
+      </footer>
+    </>
+  );
 }

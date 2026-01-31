@@ -9,6 +9,10 @@ export default function Home() {
           Configuração inicial concluída ✓
         </p>
       </div>
+      
+      <div className="absolute bottom-4 text-center w-full text-sm text-gray-500">
+        Feito por HendelCode
+      </div>
     </div>
   );
 }

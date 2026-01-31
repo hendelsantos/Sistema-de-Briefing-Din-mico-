@@ -115,7 +115,7 @@ export function FormClient({ form }: FormClientProps) {
 
         {/* Footer */}
         <div className="text-center mt-6 text-sm text-gray-600">
-          Powered by Sistema de Briefing
+          Feito por HendelCode
         </div>
       </div>
     </div>
