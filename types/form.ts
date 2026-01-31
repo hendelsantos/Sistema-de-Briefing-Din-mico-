@@ -1,6 +1,6 @@
 // Type definitions for form schema and submissions
 
-export type QuestionType = 'text' | 'textarea' | 'select' | 'checkbox' | 'radio';
+export type QuestionType = 'text' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'section';
 
 export interface FormQuestion {
   id: string;

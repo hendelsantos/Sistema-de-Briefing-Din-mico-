@@ -15,6 +15,7 @@ export function QuestionEditor({ question, onChange, onRemove }: QuestionEditorP
       ...question,
       type,
       options: type === "select" || type === "checkbox" || type === "radio" ? ["Opção 1"] : undefined,
+      required: type === 'section' ? false : question.required,
     });
   };
 
@@ -41,14 +42,14 @@ export function QuestionEditor({ question, onChange, onRemove }: QuestionEditorP
           {/* Question Label */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Pergunta
+              {question.type === 'section' ? 'Título da Seção' : 'Pergunta'}
             </label>
             <input
               type="text"
               value={question.label}
               onChange={(e) => onChange({ ...question, label: e.target.value })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Digite a pergunta..."
+              placeholder={question.type === 'section' ? "Ex: Informações Pessoais" : "Digite a pergunta..."}
             />
           </div>
 
@@ -67,6 +68,7 @@ export function QuestionEditor({ question, onChange, onRemove }: QuestionEditorP
               <option value="select">Seleção (Dropdown)</option>
               <option value="checkbox">Múltipla Escolha</option>
               <option value="radio">Escolha Única</option>
+              <option value="section">Título de Seção / Divisor</option>
             </select>
           </div>
 
@@ -106,19 +108,21 @@ export function QuestionEditor({ question, onChange, onRemove }: QuestionEditorP
             </div>
           )}
 
-          {/* Required Toggle */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id={`required-${question.id}`}
-              checked={question.required}
-              onChange={(e) => onChange({ ...question, required: e.target.checked })}
-              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <label htmlFor={`required-${question.id}`} className="ml-2 text-sm text-gray-700">
-              Campo obrigatório
-            </label>
-          </div>
+          {/* Required Toggle - Hide for sections */}
+          {question.type !== 'section' && (
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id={`required-${question.id}`}
+                checked={question.required}
+                onChange={(e) => onChange({ ...question, required: e.target.checked })}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor={`required-${question.id}`} className="ml-2 text-sm text-gray-700">
+                Campo obrigatório
+              </label>
+            </div>
+          )}
         </div>
 
         {/* Remove Button */}

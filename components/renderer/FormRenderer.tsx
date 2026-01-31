@@ -141,18 +141,32 @@ export function FormRenderer({ schema, onSubmit, loading = false }: FormRenderer
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {schema.map((question, index) => (
-        <div key={question.id} className="space-y-2">
-          <label className="block text-sm font-medium text-gray-900">
-            {index + 1}. {question.label}
-            {question.required && <span className="text-red-500 ml-1">*</span>}
-          </label>
-          {renderQuestion(question)}
-          {errors[question.id] && (
-            <p className="text-sm text-red-600">{errors[question.id]}</p>
-          )}
-        </div>
-      ))}
+      {(() => {
+        let questionNumber = 0;
+        return schema.map((question) => {
+          if (question.type === "section") {
+            return (
+              <div key={question.id} className="pt-6 pb-2 border-b border-gray-200">
+                <h3 className="text-xl font-bold text-gray-800">{question.label}</h3>
+              </div>
+            );
+          }
+
+          questionNumber++;
+          return (
+            <div key={question.id} className="space-y-2">
+              <label className="block text-sm font-medium text-gray-900">
+                {questionNumber}. {question.label}
+                {question.required && <span className="text-red-500 ml-1">*</span>}
+              </label>
+              {renderQuestion(question)}
+              {errors[question.id] && (
+                <p className="text-sm text-red-600">{errors[question.id]}</p>
+              )}
+            </div>
+          );
+        });
+      })()}
 
       <button
         type="submit"
