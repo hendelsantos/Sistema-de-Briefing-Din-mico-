@@ -71,12 +71,24 @@ export default function AdminPage() {
           <h1 className="text-2xl font-bold text-gray-900">
             Painel de Briefings
           </h1>
-          <button
-            onClick={() => signOut({ callbackUrl: "/login" })}
-            className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
-          >
-            Sair
-          </button>
+          <div className="flex items-center gap-4">
+            <Link 
+                href="/" 
+                target="_blank"
+                className="text-sm text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1"
+            >
+                Ver Site
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+            </Link>
+            <button
+                onClick={() => signOut({ callbackUrl: "/login" })}
+                className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
+            >
+                Sair
+            </button>
+          </div>
         </div>
       </header>
 
