@@ -4,6 +4,8 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { FormRenderer } from "@/components/renderer/FormRenderer"; 
+import { FormSchema } from "@/types/form";
 
 interface Form {
   id: string;
@@ -21,6 +23,7 @@ interface Form {
 export default function AdminPage() {
   const [forms, setForms] = useState<Form[]>([]);
   const [loading, setLoading] = useState(true);
+  const [previewForm, setPreviewForm] = useState<Form | null>(null);
 
   useEffect(() => {
     fetchForms();
@@ -41,7 +44,7 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Tem certeza que deseja excluir este briefing?")) {
+    if (!confirm("Tem certeza que deseja excluir este briefing? Esta ação não pode ser desfeita.")) {
       return;
     }
 
@@ -52,6 +55,8 @@ export default function AdminPage() {
 
       if (response.ok) {
         fetchForms();
+      } else {
+        alert("Erro ao excluir briefing. Verifique se existem propostas associadas.");
       }
     } catch (error) {
       alert("Erro ao excluir briefing");
@@ -66,6 +71,42 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      {/* Sidebar / Modal for Preview */}
+      {previewForm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 md:p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative transition-colors duration-300">
+                <button 
+                    onClick={() => setPreviewForm(null)}
+                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 pr-8">{previewForm.title}</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">{previewForm.description}</p>
+
+                <div className="dark:text-white">
+                    <FormRenderer 
+                        schema={previewForm.schema as FormSchema}
+                        onSubmit={() => alert("Isso é apenas uma visualização. Nenhuma resposta foi enviada.")}
+                        loading={false}
+                    />
+                </div>
+                
+                <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 flex justify-end">
+                    <button
+                        onClick={() => setPreviewForm(null)}
+                        className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    >
+                        Fechar Visualização
+                    </button>
+                </div>
+            </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-white dark:bg-gray-800 shadow transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
@@ -209,17 +250,24 @@ export default function AdminPage() {
                       {new Date(form.createdAt).toLocaleDateString("pt-BR")}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                       <button
+                        onClick={() => setPreviewForm(form)} // Preview Action
+                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 inline-flex items-center gap-1"
+                        title="Visualizar perguntas"
+                      >
+                        <span className="text-xl leading-none">👁️</span>
+                      </button>
                       <button
                         onClick={() => copyLink(form.slug)}
                         className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                       >
-                        Copiar Link
+                        Link
                       </button>
                       <Link
                         href={`/admin/respostas/${form.id}`}
                         className="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300"
                       >
-                        Ver Respostas
+                        Respostas
                       </Link>
                       <button
                         onClick={async () => {
@@ -235,9 +283,9 @@ export default function AdminPage() {
                               body: JSON.stringify({
                                 title: newTitle,
                                 slug: newSlug,
-                                description: form.description, // Reusing description
-                                clientName: "", // Clear client name
-                                schema: form.schema, // Copy schema (The Template)
+                                description: form.description, 
+                                clientName: "", 
+                                schema: form.schema, 
                               }),
                             });
 
@@ -259,6 +307,7 @@ export default function AdminPage() {
                       <button
                         onClick={() => handleDelete(form.id)}
                         className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
+                        title="Excluir"
                       >
                         Excluir
                       </button>
@@ -273,5 +322,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
-

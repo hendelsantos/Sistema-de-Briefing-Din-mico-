@@ -38,7 +38,7 @@ model Submission {
 model Proposal {
   id           String     @id @default(cuid())
   submissionId String     @unique
-  submission   Submission @relation(fields: [submissionId], references: [id])
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
   price        Decimal?
   deadline     String?    // ex: "15 dias úteis"
   scope        String?    // Escopo resumido ou detalhado
