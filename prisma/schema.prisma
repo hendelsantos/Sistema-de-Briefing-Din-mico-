@@ -30,6 +30,20 @@ model Submission {
   clientEmail String?
   answers     Json     // Respostas do cliente em JSON
   submittedAt DateTime @default(now())
+  proposal    Proposal?
 
   @@map("submissions")
+}
+
+model Proposal {
+  id           String     @id @default(cuid())
+  submissionId String     @unique
+  submission   Submission @relation(fields: [submissionId], references: [id])
+  price        Decimal?
+  deadline     String?    // ex: "15 dias úteis"
+  scope        String?    // Escopo resumido ou detalhado
+  status       String     @default("DRAFT") // DRAFT, SENT, ACCEPTED, REJECTED
+  createdAt    DateTime   @default(now())
+
+  @@map("proposals")
 }

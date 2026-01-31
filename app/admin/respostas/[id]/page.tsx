@@ -19,6 +19,7 @@ export default async function RespostasPage({
     include: {
       submissions: {
         orderBy: { submittedAt: "desc" },
+        include: { proposal: true },
       },
     },
   });
