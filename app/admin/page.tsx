@@ -3,6 +3,7 @@
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface Form {
   id: string;
@@ -64,27 +65,28 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white shadow">
+      <header className="bg-white dark:bg-gray-800 shadow transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             Painel de Briefings
           </h1>
           <div className="flex items-center gap-4">
             <Link 
                 href="/" 
                 target="_blank"
-                className="text-sm text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1"
+                className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium flex items-center gap-1"
             >
                 Ver Site
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
             </Link>
+            <ThemeToggle />
             <button
                 onClick={() => signOut({ callbackUrl: "/login" })}
-                className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
+                className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
                 Sair
             </button>
@@ -95,7 +97,7 @@ export default function AdminPage() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6 flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-gray-900">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             Meus Briefings
           </h2>
           <div className="flex gap-2">
@@ -117,13 +119,13 @@ export default function AdminPage() {
                   setLoading(false);
                 }
               }}
-              className="text-sm text-indigo-600 hover:text-indigo-800 px-4 py-2 border border-indigo-200 rounded-lg hover:bg-indigo-50 transition-colors"
+              className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 px-4 py-2 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/50 transition-colors"
             >
               + Gerar Modelo Loja Virtual
             </button>
             <Link
               href="/admin/novo"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-blue-600 dark:bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
             >
               + Novo Briefing
             </Link>
@@ -131,12 +133,12 @@ export default function AdminPage() {
         </div>
 
         {loading ? (
-          <div className="bg-white rounded-lg shadow p-12 text-center">
-            <p className="text-gray-500">Carregando...</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center transition-colors duration-300">
+            <p className="text-gray-500 dark:text-gray-400">Carregando...</p>
           </div>
         ) : forms.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-12 text-center">
-            <div className="text-gray-400 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center transition-colors duration-300">
+            <div className="text-gray-400 dark:text-gray-500 mb-4">
               <svg
                 className="mx-auto h-12 w-12"
                 fill="none"
@@ -151,71 +153,71 @@ export default function AdminPage() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
               Nenhum briefing criado
             </h3>
-            <p className="text-gray-500 mb-4">
+            <p className="text-gray-500 dark:text-gray-400 mb-4">
               Comece criando seu primeiro briefing personalizado
             </p>
             <Link
               href="/admin/novo"
-              className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-block bg-blue-600 dark:bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
             >
               Criar Briefing
             </Link>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden transition-colors duration-300">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700/50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Título
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Cliente
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Respostas
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Data
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Ações
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {forms.map((form) => (
                   <tr key={form.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">
                         {form.title}
                       </div>
-                      <div className="text-sm text-gray-500">/b/{form.slug}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">/b/{form.slug}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {form.clientName || "-"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100">
                         {form._count.submissions}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {new Date(form.createdAt).toLocaleDateString("pt-BR")}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                       <button
                         onClick={() => copyLink(form.slug)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                       >
                         Copiar Link
                       </button>
                       <Link
                         href={`/admin/respostas/${form.id}`}
-                        className="text-green-600 hover:text-green-900"
+                        className="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300"
                       >
                         Ver Respostas
                       </Link>
@@ -249,14 +251,14 @@ export default function AdminPage() {
                             alert("Erro ao duplicar briefing");
                           }
                         }}
-                        className="text-indigo-600 hover:text-indigo-900"
+                        className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300"
                         title="Usar como modelo"
                       >
                         Duplicar
                       </button>
                       <button
                         onClick={() => handleDelete(form.id)}
-                        className="text-red-600 hover:text-red-900"
+                        className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
                       >
                         Excluir
                       </button>
@@ -271,4 +273,5 @@ export default function AdminPage() {
     </div>
   );
 }
+
 

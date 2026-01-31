@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormSchema, FormAnswers } from "@/types/form";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface SubmissionsClientProps {
   form: {
@@ -105,7 +106,7 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 print:bg-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 print:bg-white transition-colors duration-300">
       <style jsx global>{`
         @media print {
           nav, header, button, a {
@@ -113,6 +114,7 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
           }
           body {
             background: white;
+            color: black;
           }
           .print-content {
             display: block !important;
@@ -120,36 +122,42 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
           .no-print {
             display: none !important;
           }
+          * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            text-shadow: none !important;
+            box-shadow: none !important;
+          }
         }
       `}</style>
 
       {/* Proposal Modal */}
       {proposalModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 no-print">
-          <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4">Gerar Proposta Comercial</h3>
-            <p className="text-sm text-gray-500 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 max-w-md w-full transition-colors duration-300">
+            <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Gerar Proposta Comercial</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
               Isso criará um link único com a proposta para o cliente.
             </p>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Valor (R$)</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Valor (R$)</label>
                 <input
                   type="number"
                   value={proposalPrice}
                   onChange={(e) => setProposalPrice(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                   placeholder="Ex: 5000"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Prazo de Entrega</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Prazo de Entrega</label>
                 <input
                   type="text"
                   value={proposalDeadline}
                   onChange={(e) => setProposalDeadline(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                   placeholder="Ex: 15 dias úteis"
                 />
               </div>
@@ -158,24 +166,24 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
             <div className="mt-8 flex justify-end gap-3">
               <button
                 onClick={() => setProposalModal(null)}
-                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleCreateProposal}
-                className="px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700"
+                className="px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
               >
                 {proposalModal.existingProposal ? "Atualizar Proposta" : "Gerar Link da Proposta"}
               </button>
             </div>
             
             {proposalModal.existingProposal && (
-               <div className="mt-4 pt-4 border-t text-center">
+               <div className="mt-4 pt-4 border-t dark:border-gray-700 text-center">
                  <a 
                    href={`/p/${proposalModal.existingProposal.id}`} 
                    target="_blank"
-                   className="text-blue-600 hover:underline text-sm font-medium"
+                   className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium"
                  >
                    Ver Proposta Criada ↗
                  </a>
@@ -186,32 +194,35 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
       )}
 
       {/* Header */}
-      <header className="bg-white shadow no-print">
+      <header className="bg-white dark:bg-gray-800 shadow no-print transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
               <Link
                 href="/admin"
-                className="text-sm text-gray-600 hover:text-gray-900 mb-2 inline-block"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-2 inline-block transition-colors"
               >
                 ← Voltar para Dashboard
               </Link>
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                 Respostas: {form.title}
               </h1>
               {form.clientName && (
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                   Cliente: {form.clientName}
                 </p>
               )}
             </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-600">
-                Total de respostas
-              </p>
-              <p className="text-3xl font-bold text-blue-600">
-                {form.submissions.length}
-              </p>
+            <div className="flex items-center gap-6">
+              <div className="text-right">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Total de respostas
+                </p>
+                <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                  {form.submissions.length}
+                </p>
+              </div>
+              <ThemeToggle />
             </div>
           </div>
         </div>
@@ -220,8 +231,8 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {form.submissions.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-12 text-center no-print">
-            <div className="text-gray-400 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center no-print transition-colors duration-300">
+            <div className="text-gray-400 dark:text-gray-500 mb-4">
               <svg
                 className="mx-auto h-12 w-12"
                 fill="none"
@@ -236,37 +247,37 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
               Nenhuma resposta ainda
             </h3>
-            <p className="text-gray-500">
+            <p className="text-gray-500 dark:text-gray-400">
               Compartilhe o link do briefing com seu cliente para receber respostas
             </p>
           </div>
         ) : (
           <div className="space-y-6">
             {form.submissions.map((submission, index) => (
-              <div key={submission.id} className="bg-white rounded-lg shadow p-6 print:shadow-none print:border print:border-gray-300">
-                <div className="flex justify-between items-start mb-4 pb-4 border-b border-gray-200">
+              <div key={submission.id} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 print:shadow-none print:border print:border-gray-300 transition-colors duration-300">
+                <div className="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       Resposta #{form.submissions.length - index}
                     </h3>
                     {submission.clientEmail && (
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                         Email: {submission.clientEmail}
                       </p>
                     )}
                   </div>
                   <div className="flex items-center gap-2 no-print">
-                    <p className="text-sm text-gray-500 mr-4">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mr-4">
                       {new Date(submission.submittedAt).toLocaleString("pt-BR")}
                     </p>
                     <button
                       onClick={() => openProposalModal(submission)}
                       className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
                         submission.proposal 
-                          ? "bg-green-100 text-green-700 hover:bg-green-200" 
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-900/50" 
                           : "bg-emerald-600 text-white hover:bg-emerald-700"
                       }`}
                       title={submission.proposal ? "Editar Proposta" : "Criar Proposta"}
@@ -276,7 +287,7 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
                     </button>
                     <button
                       onClick={() => handleGeneratePrompt(submission)}
-                      className="px-3 py-1.5 bg-indigo-100 text-indigo-700 rounded-md text-sm font-medium hover:bg-indigo-200 transition-colors flex items-center gap-1"
+                      className="px-3 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded-md text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-colors flex items-center gap-1"
                       title="Gerar prompt para ChatGPT"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -286,7 +297,7 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
                     </button>
                     <button
                       onClick={handlePrint}
-                      className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-1"
+                      className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center gap-1"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -300,10 +311,10 @@ export function SubmissionsClient({ form }: SubmissionsClientProps) {
                   {Object.entries(submission.answers as FormAnswers).map(
                     ([questionId, answer]) => (
                       <div key={questionId} className="break-inside-avoid">
-                        <p className="text-sm font-medium text-gray-700 mb-1">
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           {getQuestionLabel(questionId)}
                         </p>
-                        <p className="text-gray-900 bg-gray-50 p-3 rounded print:border print:border-gray-100">
+                        <p className="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700/50 p-3 rounded print:border print:border-gray-100">
                           {formatAnswer(answer)}
                         </p>
                       </div>
