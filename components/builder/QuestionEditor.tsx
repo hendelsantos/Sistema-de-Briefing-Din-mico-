@@ -87,6 +87,7 @@ export function QuestionEditor({ question, onChange, onRemove }: QuestionEditorP
                       placeholder={`Opção ${index + 1}`}
                     />
                     <button
+                      type="button"
                       onClick={() => handleRemoveOption(index)}
                       className="px-2 py-1 text-red-600 hover:bg-red-50 rounded"
                     >
@@ -95,6 +96,7 @@ export function QuestionEditor({ question, onChange, onRemove }: QuestionEditorP
                   </div>
                 ))}
                 <button
+                  type="button"
                   onClick={handleAddOption}
                   className="text-sm text-blue-600 hover:text-blue-700"
                 >
@@ -121,6 +123,7 @@ export function QuestionEditor({ question, onChange, onRemove }: QuestionEditorP
 
         {/* Remove Button */}
         <button
+          type="button"
           onClick={onRemove}
           className="ml-4 text-gray-400 hover:text-red-600"
           title="Remover pergunta"

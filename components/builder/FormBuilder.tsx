@@ -59,6 +59,7 @@ export function FormBuilder({ initialSchema = [], onChange }: FormBuilderProps) 
           Perguntas do Briefing
         </h3>
         <button
+          type="button"
           onClick={addQuestion}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
         >
@@ -72,6 +73,7 @@ export function FormBuilder({ initialSchema = [], onChange }: FormBuilderProps) 
             Nenhuma pergunta adicionada ainda
           </p>
           <button
+            type="button"
             onClick={addQuestion}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
@@ -84,6 +86,7 @@ export function FormBuilder({ initialSchema = [], onChange }: FormBuilderProps) 
             <div key={question.id} className="relative">
               <div className="absolute -left-12 top-4 flex flex-col gap-1">
                 <button
+                  type="button"
                   onClick={() => moveQuestion(index, "up")}
                   disabled={index === 0}
                   className="text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
@@ -92,6 +95,7 @@ export function FormBuilder({ initialSchema = [], onChange }: FormBuilderProps) 
                   ▲
                 </button>
                 <button
+                  type="button"
                   onClick={() => moveQuestion(index, "down")}
                   disabled={index === schema.length - 1}
                   className="text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
